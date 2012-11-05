@@ -1,15 +1,23 @@
 #Makefile
-OBJS = ab.o book.o abcli.o
+CLIENT = client.o book.o abclient.o
+SERVER = server.o book.o abserver.o
 CC = gcc
 CFLAGS = -O -g -lstdc++
 
-ab:	$(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o ab
-ab.o:	ab.cpp common.h abcli.h
-	$(CC) $(CFLAGS) -c $< -o ab.o
+all: 	client server
+client:	$(CLIENT)
+	$(CC) $(CFLAGS) $(CLIENT) -o abclient
+server: $(SERVER)
+	$(CC) $(CFLAGS) $(SERVER) -o abserver
+client.o:	client.cpp common.h abClient.h
+	$(CC) $(CFLAGS) -c $< -o client.o
+server.o:	server.cpp common.h abServer.h
+	$(CC) $(CFLAGS) -c $< -o server.o
 book.o:	book.cpp book.h common.h
 	$(CC) $(CFLAGS) -c $< -o $@
-abcli.o:	abcli.cpp abcli.h book.h common.h
+abclient.o:	abClient.cpp abClient.h book.h common.h
+	$(CC) $(CFLAGS) -c $< -o $@
+abserver.o:	abServer.cpp abServer.h book.h common.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
